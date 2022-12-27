@@ -1,9 +1,14 @@
 import React from "react";
+import "../CSS/Nav.css"
 
 const Nav = () => {
 
     return (
-        <div>Nav!</div>
+        <div className="signin"> Sign in here:
+            <input type="number" className="email"></input>
+            <input type="password" className="password"></input>        
+        </div>
+        
     )
 }
 
