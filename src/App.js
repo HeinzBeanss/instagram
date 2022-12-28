@@ -1,13 +1,15 @@
 import './CSS/App.css';
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 // import Nav from "./Components/Nav";
-import Home from "./Components/Home"
+import Home from "./Components/Home";
+import Profile from "./Components/Profile";
+import Signup from "./Components/Signup";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -30,6 +32,8 @@ function App() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   const createUserFunction = () => {
     // console.log(`${email} and ${password}`);
@@ -41,6 +45,7 @@ function App() {
       // ...
       console.log(userCredential);
       console.log(user);
+      console.log("YOU SHOULD NOW BE SIGNED IN.")
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -61,15 +66,26 @@ function App() {
     }
 
   }
-
-  // const handleChangeEmail = (e) => {
-  //   console.log(e.target);
-  // }  
-
-  // const handleChangePassword = (e) => {
-    
-  // }
   
+
+  // get user
+  // const getuserinfo = () => {
+  // maybe give it to another variable using useState, aka isLoggedIn, setIsLoggedIn
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+    console.log("user is signed out");
+    setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(true);
+      const uid = user.uid;
+      console.log("user is signed in");
+      
+    }
+  });
+// }
+ //
+
+ if (isLoggedIn) {
   return (
     <BrowserRouter >
     {/* ADD basename={process.env.PUBLIC_URL} to the BrowserRouter element when deploying! */}
@@ -79,17 +95,26 @@ function App() {
             <input type="text" className="email" onChange={handleChange}></input>
             <input type="password" className="password" onChange={handleChange}></input>     
             <button className='createuser' onClick={createUserFunction}>Create Account</button>   
+            <Link to={"/profile"}><button className='testbutton'>CLICK ME TO MOVE TO ANOTHER PAGE</button></Link>
         </div>
         
         <Routes>
-            
-            <Route path={"/home"} element={<Home />} />
-            {/* <Route path={"/profile}"} element={ } /> */}
+            <Route path={"/sign-up"} />
+            <Route path={"/"} element={<Home />} />
+            <Route path={"/profile"} element={ <Profile /> } />
             
         </Routes>
         
     </BrowserRouter>
     )
+ } else {
+  return (
+    < Signup />
+    // use component here, app page, or maybe figure uot how to just go to a new url in general. which then uses a button to go to this page again! once signed in.
+    // just retyurn the new sign in page component, which then links back to this page with a LINK tag.
+  )
+ }
+
 }
 
 export default App;
