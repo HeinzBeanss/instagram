@@ -1,3 +1,45 @@
-.signin {
-    border: 1px red solid;
+.sidebarbody {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 100vh;
+    padding: 25px;
+    justify-content: space-between;
+    align-items: center;
+    background: #0F2027;  /* fallback for old browsers */
+    color: white;
+    align-items: flex-start;
+}
+
+.logotitle {
+    margin: 0;
+    margin-bottom: 30px;
+}
+
+/* .profiletitle {
+    color:  red;
+} */
+
+.profiletitle:visited, .profiletitle:link, .logotitle {
+    color: white;
+    text-decoration: none;
+}
+
+.profiletitle:hover {
+    color: rgb(228, 228, 228);
+}
+
+.settings {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.createpostbutton {
+    font-size: 1.4rem;
+    font-weight: 400;
 }

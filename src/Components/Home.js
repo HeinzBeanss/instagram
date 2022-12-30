@@ -1,10 +1,12 @@
 import React from "react";
-
-const Home = () => {
+import "../CSS/Home.css"
+const Home = (props) => {
+    console.log("testing home")
 
     return (
-        <div>
-            Homepage
+        <div className="newsfeedbody">
+            {/* {props.createPost} */}
+            <div className="newsfeed"></div>
         </div>
     )
 }

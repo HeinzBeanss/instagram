@@ -1,0 +1,16 @@
+.createpostbody {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.createbody {
+    top: 25%;
+    left: calc(25%);
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.63);
+    /* left: 400px; */
+    height: 625px;
+    width: 625px;
+}

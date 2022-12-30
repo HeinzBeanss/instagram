@@ -1,7 +1,11 @@
 import './CSS/App.css';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
 // import Nav from "./Components/Nav";
+import Loading from "./Components/Loading";
+import CreatePost from './Components/CreatePost';
+import Nav from "./Components/Nav";
 import Home from "./Components/Home";
 import Profile from "./Components/Profile";
 import Signup from "./Components/Signup";
@@ -10,6 +14,7 @@ import Signup from "./Components/Signup";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
+import { isDOMComponent } from 'react-dom/test-utils';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -30,90 +35,46 @@ const auth = getAuth(app);
 
 function App() {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // The Create Post Component
+  const [createPost, setCreatePost] = useState([]);
   
-  const createUserFunction = () => {
-    // console.log(`${email} and ${password}`);
-    console.log(auth);
-      createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
-      console.log(userCredential);
-      console.log(user);
-      console.log("YOU SHOULD NOW BE SIGNED IN.")
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-      console.log(errorCode);
-      console.log(errorMessage);
+  // Check if user is logged in.
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+      console.log("user is signed out");
+      setIsLoggedIn(false);
+      } else {
+        setIsLoggedIn(true);
+        const uid = user.uid;
+        console.log("user is signed in");
+        
+      }
     });
-
-  }
-
-  const handleChange = (e) => {
-
-    if (e.target.className === "email") {
-      setEmail(e.target.value);
-    } else if (e.target.className === "password") {
-      setPassword(e.target.value);
-    }
-
-  }
-  
-
-  // get user
-  // const getuserinfo = () => {
-  // maybe give it to another variable using useState, aka isLoggedIn, setIsLoggedIn
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-    console.log("user is signed out");
-    setIsLoggedIn(false);
-    } else {
-      setIsLoggedIn(true);
-      const uid = user.uid;
-      console.log("user is signed in");
-      
-    }
-  });
-// }
- //
-
+  }, [])
+ 
+  console.log("test")
  if (isLoggedIn) {
   return (
     <BrowserRouter >
+    {createPost}
     {/* ADD basename={process.env.PUBLIC_URL} to the BrowserRouter element when deploying! */}
-        {/* <Nav /> */}
-
-        <div className="signin"> Sign in here:
-            <input type="text" className="email" onChange={handleChange}></input>
-            <input type="password" className="password" onChange={handleChange}></input>     
-            <button className='createuser' onClick={createUserFunction}>Create Account</button>   
-            <Link to={"/profile"}><button className='testbutton'>CLICK ME TO MOVE TO ANOTHER PAGE</button></Link>
-        </div>
+        <Nav setCreatePost={setCreatePost}/>
         
         <Routes>
             <Route path={"/sign-up"} />
-            <Route path={"/"} element={<Home />} />
+            <Route path={"/"} element={<Home createPost={createPost}/>} />
             <Route path={"/profile"} element={ <Profile /> } />
-            
         </Routes>
-        
     </BrowserRouter>
     )
- } else {
+ } else if (!isLoggedIn) {
   return (
     < Signup />
-    // use component here, app page, or maybe figure uot how to just go to a new url in general. which then uses a button to go to this page again! once signed in.
-    // just retyurn the new sign in page component, which then links back to this page with a LINK tag.
   )
- }
+ } 
 
 }
 

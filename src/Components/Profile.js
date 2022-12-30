@@ -2,11 +2,7 @@ import React from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Profile = (props) => {
-
-    console.log("below is the props of signedinstatus, aka user.")
-    console.log(props.signedinstatus);
-
-    
+      
     const getuserinfo = () => {
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {

@@ -25,7 +25,7 @@
     padding: 20px;
     /* padding: 20px; */
     border-radius: 2.4rem;
-    min-width: 200px;
+    min-width: fit-content;
     max-width: 35%;
 }
 
@@ -94,16 +94,19 @@
 }
 
 .forgotpassword {
-    margin: 4px 0;
+    margin: 8px 0;
     font-size: 0.75rem;
     color: rgb(97, 97, 97);
     cursor: pointer;
+    text-align: center;
+    letter-spacing: 0.05rem;
 }
 
-.errormessage {
-    color: red;
-    margin: 5px 0;
-    visibility: hidden;
+.signinerrormessage {
+    color: rgb(173, 70, 70);
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
 }
 
 .signupbutton {
@@ -113,4 +116,12 @@
     color: #0F2027;
     border-radius: 2rem;
     border: 0;
+}
+
+.signuperrormessage {
+    color: rgb(253, 100, 100);
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+
 }

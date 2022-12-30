@@ -1,0 +1,12 @@
+.newsfeedbody {
+    width: calc(100% - 400px);
+    display: flex;
+    justify-content: center;
+}
+
+.newsfeed {
+    box-sizing: border-box;
+    width: 600px;
+    border: red 1px solid;
+    height: 100vh;
+}
