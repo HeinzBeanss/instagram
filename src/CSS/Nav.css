@@ -21,7 +21,7 @@
     color:  red;
 } */
 
-.profiletitle:visited, .profiletitle:link, .logotitle {
+.profiletitle:visited, .profiletitle:link, .logotitle, .searchtitle {
     color: white;
     text-decoration: none;
 }

@@ -4,11 +4,6 @@ import "../CSS/Nav.css"
 import CreatePost from "./CreatePost";
 
 const Nav = (props) => {
-    console.log("testing nav")
-    console.log(props.setCreatePost)
-    console.log(props)    // const [showCreatePost, setShowCreatePost] = useState(false);
-    
-
 
     return (
         <div className="sidebarbody">
@@ -18,8 +13,9 @@ const Nav = (props) => {
                     {/* <img src="."></img> */}
                     <Link className="logotitle" to={"/"}><h1 className="logotitle">Instagram</h1></Link>
                 </div>
-                <div className="createpostbutton" onClick={ () => props.setCreatePost(<CreatePost />)}>Create</div>
+                <div className="createpostbutton" onClick={ () => props.setCreatePost(<CreatePost setCreatePost={props.setCreatePost}/>)}>Create</div>
                 <Link className="profiletitle" to={"/profile"}><h2 className="profiletitle">Profile</h2></Link>
+                <Link className="searchtitle" to={"/explore"}><h2>Explore</h2></Link>
             </div> 
             <div className="bottomsection">
                 <div className="settings">Settings</div>
