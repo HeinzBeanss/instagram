@@ -3,7 +3,35 @@ import { Link } from "react-router-dom";
 import "../CSS/Nav.css"
 import CreatePost from "./CreatePost";
 
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, signOut } from "firebase/auth";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDE8Sszw1i0P0VH6UEZP2Tr-s-sV94ry0M",
+  authDomain: "instagram-ed084.firebaseapp.com",
+  projectId: "instagram-ed084",
+  storageBucket: "instagram-ed084.appspot.com",
+  messagingSenderId: "505061943423",
+  appId: "1:505061943423:web:01e31c3eee7724ac36f74a",
+  measurementId: "G-YZW3T2S3SV"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+
 const Nav = (props) => {
+
+    const signout = () => {
+        console.log("signing out");
+        auth.signOut().then(() => {
+            console.log("user logged out");
+        })
+
+    }
 
     return (
         <div className="sidebarbody">
@@ -19,6 +47,7 @@ const Nav = (props) => {
             </div> 
             <div className="bottomsection">
                 <div className="settings">Settings</div>
+                <div className="signoutbutton" onClick={signout}>Sign out</div>
             </div>
 
             

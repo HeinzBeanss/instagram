@@ -9,12 +9,12 @@ import Nav from "./Components/Nav";
 import Home from "./Components/Home";
 import Profile from "./Components/Profile";
 import Signup from "./Components/Signup";
+import Explore from "./Components/Explore";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
-import { isDOMComponent } from 'react-dom/test-utils';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -50,12 +50,18 @@ function App() {
         setIsLoggedIn(true);
         const uid = user.uid;
         console.log("user is signed in");
+        console.log(user.uid);
+        console.log(user.displayName);
+        console.log(`user display name: ${user.displayName}`);
+
+        console.log("below his!");
+        console.log(auth);
+        console.log(auth.user);
         
       }
     });
   }, [])
  
-  console.log("test")
  if (isLoggedIn) {
   return (
     <BrowserRouter >
@@ -67,6 +73,7 @@ function App() {
             <Route path={"/sign-up"} />
             <Route path={"/"} element={<Home createPost={createPost}/>} />
             <Route path={"/profile"} element={ <Profile /> } />
+            <Route path={"/explore"} element={ <Explore /> } />
         </Routes>
     </BrowserRouter>
     )

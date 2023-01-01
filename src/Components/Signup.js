@@ -5,7 +5,20 @@ import Home from "./Home";
 // import { Link } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    limit,
+    onSnapshot,
+    setDoc,
+    updateDoc,
+    doc,
+    serverTimestamp,
+  } from 'firebase/firestore';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -22,12 +35,14 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
 
 const Signup = () => {
 
     const [signInEmail, setSignInEmail] = useState("");
     const [signInPassword, setSignInPassword] = useState("");
+    const [signUpUsername, setSignUpUsername] = useState("");
     const [signUpEmail, setSignUpEmail] = useState("");
     const [signUpPassword, setSignUpPassword] = useState("");
     const [signUpConfirmPassword, setSignUpCofirmPassword] = useState("");
@@ -56,6 +71,8 @@ const Signup = () => {
             setSignUpPassword(e.target.value);
         } else if (e.target.id === "signupconfirmpassword") {
             setSignUpCofirmPassword(e.target.value);
+        } else if (e.target.id === "signupusername") {
+            setSignUpUsername(e.target.value);
         }
       }
 
@@ -63,8 +80,10 @@ const Signup = () => {
         signInWithEmailAndPassword(auth, signInEmail, signInPassword)
         .then((userCredential) => {
             // Signed in 
+            // userCredential.user.displayName = signUpUsername;
             const user = userCredential.user;
             // ...
+            
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -74,9 +93,12 @@ const Signup = () => {
             console.log(errorMessage);
             setSignInError(<div className="signinerrormessage">Error: {errorCode}</div>)
         });
+        // const auth = getAuth();
+
     }
 
-    const signUp = () => {
+    const signUp = async () => {
+        console.log(`THIS IS THE CURRENT SIGNUPUSERNAME: ${signUpUsername}`);
         if (signUpPassword === signUpConfirmPassword) {
             console.log(auth);
             createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
@@ -86,6 +108,33 @@ const Signup = () => {
                 // ...
                 console.log(userCredential);
                 console.log(user);
+                // ..
+
+                updateProfile(auth.currentUser, {
+                    displayName: signUpUsername, 
+                    // photoURL: "https://example.com/jane-q-user/profile.jpg"
+                  }).then(() => {
+                    console.log("profile updated!")
+                    console.log(auth.currentUser.displayName);
+                    // Profile updated!
+                    // ...
+                  }).catch((error) => {
+                    // An error occurred
+                    // ...
+                  });
+
+                  try {
+                    const docRef = setDoc(doc(db, "users", auth.currentUser.uid), {
+                      displayName: signUpUsername,
+                      uid: auth.currentUser.uid,
+                      followers: [],
+                      following: [],
+                    });
+                    console.log("User Added to Firestore Database");
+                    console.log("Document written with ID: ", docRef.id);
+                  } catch (e) {
+                    console.error("Error adding document: ", e);
+                  }
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -97,6 +146,7 @@ const Signup = () => {
               setSignUpError(<div className="signuperrormessage">Error: {errorCode}</div>)
 
             });
+            //
         } else {
             console.log("passwords dont match")
             
@@ -121,6 +171,8 @@ const Signup = () => {
                 <div className="signupright">
                     <h2 className="signuptitle">NEW HERE?</h2>
                     <p className="signupdesc">Create an account here.</p>
+                    <label className="signlabel" >USERNAME</label>
+                    <input className="signupinput" id="signupusername" type="text"  name="signupusername" onChange={handleChange}></input>
                     <label className="signlabel" >EMAIL ADDRESS</label>
                     <input className="signupinput" id="signupemail" type="email"  name="signupemail" onChange={handleChange}></input>
                     <label className="signlabel" >PASSWORD</label>
