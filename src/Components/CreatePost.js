@@ -55,7 +55,7 @@ const CreatePost = (props) => {
         setFile(file);
         console.log(event.target.files);
         console.log(file);
-
+        console.log("adding temp pic file");
         const tempFilePath = `tempUploads/${file.name}`;
         const newImageRef = ref(getStorage(), tempFilePath);
         const fileSnapshot = await uploadBytesResumable(newImageRef, file);
@@ -84,11 +84,13 @@ const CreatePost = (props) => {
       }
 
       function getUserName() {
+        console.log("GETTING USER NAME");
         return getAuth().currentUser.displayName;
       }
 
       async function saveImageMessage(file) {
         try {
+          console.log("adding doc");
           // 1 - We add a message with a loading icon that will get updated with the shared image.
           const messageRef = await addDoc(collection(getFirestore(), 'messages'), {
             name: getUserName(),
@@ -104,7 +106,7 @@ const CreatePost = (props) => {
           
           // 3 - Generate a public URL for the file.
           const publicImageUrl = await getDownloadURL(newImageRef);
-
+          console.log("updating doc");
           // 4 - Update the chat message placeholder with the image's URL.
           await updateDoc(messageRef,{
             imageUrl: publicImageUrl,

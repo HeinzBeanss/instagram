@@ -40,12 +40,15 @@ const Explore = () => {
 
     const [users, setUsers] = useState([]);
     const [tempUserData, setTempUserData] = useState();
+    const [shouldIFetchData, setShouldIFetchData] = useState(true);
 
     useEffect(() => {
-
+        console.log(shouldIFetchData);
+        if (shouldIFetchData === true) {
             const fetchUsers = async () => {
                 let temparray = [];
                 const querySnapshot = await getDocs(collection(db, "users"));
+                console.log("FETCHING DATA");
                 querySnapshot.forEach((doc) => {
                     if (temparray.includes(doc.data())) {
                         // do nothing
@@ -64,28 +67,31 @@ const Explore = () => {
             }   
             fetchUsers()
             .catch(console.error);
-    }, [tempUserData])
+            setShouldIFetchData(false);
+        }
+    }, [shouldIFetchData]);
 
     const followUser = async (user) => {
         console.log(tempUserData.following);
-        console.log("abnove this")
-        if (tempUserData.following.includes(user.uid)) {
-            //
+        console.log("abnove this");
+        console.log(user.uid);
+        console.log(auth.currentUser.uid);
+        if (user.uid === auth.currentUser.uid) {
+            console.log("you can't follow yourself!")
         } else {
-            const currentuserDocRef = doc(db, "users", auth.currentUser.uid);
-            await updateDoc(currentuserDocRef, {
-                "following": tempUserData.following,
-            })
+            if (tempUserData.following.includes(user.uid)) {
+                //
+                console.log("it isn't working!")
+            } else {
+                console.log("WRITING DATA")
+                tempUserData.following.push(user.uid);
+                const currentuserDocRef = doc(db, "users", auth.currentUser.uid);
+                await updateDoc(currentuserDocRef, {
+                    "following": tempUserData.following,
+                })
+                setShouldIFetchData(true);
+            }
         }
-        // const tempstringuid = user.uid.toString();
-        // console.log(tempstringuid);
-        // let newTempUserDate = tempUserData.following.push(tempstringuid);
-        // console.log(newTempUserDate);
-        tempUserData.following.push(user.uid);
-        // console.log(auth.currentUser.uid);
-        
-        // console.log(users);
-        // console.log(user);
     }
 
     return (

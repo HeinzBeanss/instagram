@@ -42,6 +42,7 @@ function App() {
   
   // Check if user is logged in.
   useEffect(() => {
+    console.log("FETCHING DATA IFUSER IS SIGNED IN");
     onAuthStateChanged(auth, (user) => {
       if (!user) {
       console.log("user is signed out");

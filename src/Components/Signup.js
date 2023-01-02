@@ -52,6 +52,7 @@ const Signup = () => {
     
     // Shows Password not matching error, also removes error after updating email.
     useEffect(() => {
+        console.log("REFRESHING PASSOWRD BOXES");
         if (signUpConfirmPassword === signUpPassword) {
             setSignUpError(<div className="signuperrormessage" style={{visibility: "hidden"}}>Error: Passwords do not match!</div>)
         } else if (signUpConfirmPassword !== signUpPassword) {
@@ -77,8 +78,10 @@ const Signup = () => {
       }
 
     const signIn = () => {
+        console.log("ATTEMPTING SIGNING IN");
         signInWithEmailAndPassword(auth, signInEmail, signInPassword)
         .then((userCredential) => {
+            console.log("ATTEMPTING SIGNING IN X2");
             // Signed in 
             // userCredential.user.displayName = signUpUsername;
             const user = userCredential.user;
@@ -98,6 +101,7 @@ const Signup = () => {
     }
 
     const signUp = async () => {
+        console.log("SIGNING UP");
         console.log(`THIS IS THE CURRENT SIGNUPUSERNAME: ${signUpUsername}`);
         if (signUpPassword === signUpConfirmPassword) {
             console.log(auth);
@@ -124,6 +128,7 @@ const Signup = () => {
                   });
 
                   try {
+                    console.log("generating user");
                     const docRef = setDoc(doc(db, "users", auth.currentUser.uid), {
                       displayName: signUpUsername,
                       uid: auth.currentUser.uid,
