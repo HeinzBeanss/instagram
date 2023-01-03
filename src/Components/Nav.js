@@ -24,17 +24,15 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 const Nav = (props) => {
-    console.log(props);
     
-    const [auth, setAuth] = useState(getAuth());
+    // const [auth, setAuth] = useState(getAuth());
 
-    useEffect(() => {
-        if (props.shouldIUpdateNav === true) {
-            console.log("getting auth for nav.")
-            setAuth(getAuth());
-            props.setShouldIUpdateNav(false);
-        }
-    }, [props.shouldIUpdateNav])
+    // useEffect(() => {
+    //     if (props.shouldIUpdateNav === true) {
+    //         console.log("getting auth for nav.")
+    //         props.setShouldIUpdateNav(false);
+    //     }
+    // }, [props.shouldIUpdateNav])
 
     const signout = () => {
         console.log("signing out");

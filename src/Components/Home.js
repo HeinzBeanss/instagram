@@ -59,7 +59,6 @@ const Home = (props) => {
     }, [updateComment])
 
     const [increaseLike, setIncreaseLike] = useState(false);
-    const [likedPosts, setLikedPosts] = useState([]);
 
     useEffect(() => {
 
