@@ -100,7 +100,15 @@ const Explore = () => {
             return (
                 <div key={i}>
                     <div>{index.uid}</div>
-                    <Link to={`/user/${index.displayName}`}><div>{index.displayName}</div></Link>
+                    <Link to={`/user/${index.uid}`} state={{ 
+                        displayName: index.displayName,
+                        followers: index.followers,
+                        following: index.following, 
+                        photoURL: index.photoURL,
+                        uid: index.uid,
+                        description: index.description,
+                     }}><div>{index.displayName}</div></Link>
+                     <div>{index.description}</div>
                     <button onClick={ () => followUser(index)}>Follow</button>
                 </div>
             )

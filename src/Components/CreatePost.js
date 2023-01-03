@@ -111,10 +111,17 @@ const CreatePost = (props) => {
             profilePicUrl: getProfilePicUrl(),
             timestamp: serverTimestamp(),
             caption: caption,
-            likes: 0,
+            likes: [],
             comments: [],
+            // postid: messageRef.id
           });
-      
+          
+          const newMessageRef = await updateDoc(messageRef, {
+            postid: messageRef.id
+          } )
+          // console.log(messageRef);
+     
+
           // 2 - Upload the image to Cloud Storage.
           const filePath = `${getAuth().currentUser.uid}/${messageRef.id}/${file.name}`;
           const newImageRef = ref(getStorage(), filePath);

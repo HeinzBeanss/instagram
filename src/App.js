@@ -16,6 +16,21 @@ import User from "./Components/User";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    limit,
+    onSnapshot,
+    setDoc,
+    updateDoc,
+    doc,
+    serverTimestamp,
+    getDocs
+  } from 'firebase/firestore';
+import { async } from "@firebase/util";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -32,9 +47,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
+
 
 
 function App() {
+
+  // FOR NAV
+  const [shouldIUpdateNav, setShouldIUpdateNav] = useState();
+
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -50,16 +71,10 @@ function App() {
       setIsLoggedIn(false);
       } else {
         setIsLoggedIn(true);
-        const uid = user.uid;
         console.log("user is signed in");
-        console.log(user.uid);
-        console.log(user.displayName);
-        console.log(`user display name: ${user.displayName}`);
-
-        console.log("below his!");
-        console.log(auth);
-        console.log(auth.user);
         
+        
+
       }
     });
   }, [])
@@ -69,12 +84,12 @@ function App() {
     <BrowserRouter >
     {createPost}
     {/* ADD basename={process.env.PUBLIC_URL} to the BrowserRouter element when deploying! */}
-        <Nav setCreatePost={setCreatePost}/>
+        <Nav setCreatePost={setCreatePost} shouldIUpdateNav={shouldIUpdateNav} setShouldIUpdateNav={setShouldIUpdateNav}/>
         
         <Routes>
             <Route path={"/sign-up"} />
             <Route path={"/"} element={<Home createPost={createPost}/>} />
-            <Route path={"/profile"} element={ <Profile /> } />
+            <Route path={"/profile"} element={ <Profile shouldIUpdateNav={shouldIUpdateNav} setShouldIUpdateNav={setShouldIUpdateNav}/> } />
             <Route path={"/explore"} element={ <Explore /> } />
             <Route path={"/user/:useruid"} element={ <User />} />
         </Routes>

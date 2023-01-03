@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import "../CSS/Home.css"
 
@@ -17,7 +17,8 @@ import {
     updateDoc,
     doc,
     serverTimestamp,
-    getDocs
+    getDocs,
+    where
   } from 'firebase/firestore';
 import { async } from "@firebase/util";
 
@@ -38,8 +39,38 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const Home = (props) => {
-    console.log("testing home")
 
+    const inputRef = useRef(null);
+    const [updateComment, setUpdateComment] = useState(false);
+
+    useEffect(() => {
+        if (updateComment === true) {
+            console.log("comment has been updated fam!");
+            console.log(tempUserData);
+            setFullComment({
+            username: tempUserData.displayName,
+            useruid: tempUserData.uid,
+            photoURL: tempUserData.photoURL,
+            commenttext: commenttext,
+            // could do time but .. maybe later
+        })
+        }
+        setUpdateComment(false);
+    }, [updateComment])
+
+    const [increaseLike, setIncreaseLike] = useState(false);
+    const [likedPosts, setLikedPosts] = useState([]);
+
+    useEffect(() => {
+
+        if (increaseLike === true) {
+            setIncreaseLike(false);            
+            // setShouldIFetchData(true);
+        }
+    }, [increaseLike])
+
+    const [commenttext, setCommenttext] = useState();
+    const [fullComment, setFullComment] = useState({});
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
     const [followedUsers, setFollowedUsers] = useState([]);
@@ -70,10 +101,6 @@ const Home = (props) => {
                         // console.log(auth.currentUser.uid);
                         setTempUserData(doc.data());
                     }
-
-
-
-                    
                 });
             }   
 
@@ -101,6 +128,56 @@ const Home = (props) => {
         }
     }, [shouldIFetchData]);
 
+    const postComment = async (post) => {
+        let tempcomments = post.comments;
+        completeComment();
+        tempcomments.push(fullComment);
+        console.log(posts);
+        console.log(post.postid)
+        const postRef = collection(db, "posts");
+        await updateDoc(doc(postRef, post.postid), {
+            comments: tempcomments,
+        });
+        console.log("comment posted")
+        inputRef.current.value = "";
+        setShouldIFetchData(true);
+    }
+
+    const handleChange = (e) => {
+        setCommenttext(e.target.value);
+        console.log(commenttext);
+        setUpdateComment(true);
+    }
+
+    const completeComment = () => {
+        console.log("setting comments");
+        
+    }
+
+    const likePost = async (post) => {
+        
+        if (post.likes.includes(tempUserData.uid)) {
+            console.log("this user already liked");
+        } else {
+            let templikes = post.likes;
+            templikes.push(tempUserData.uid);
+            const postRef = collection(db, "posts");
+            await updateDoc(doc(postRef, post.postid), {
+                likes: templikes,
+            });
+
+
+            let templikedposts = tempUserData.likedposts;
+            templikedposts.push(post.postid);
+            const currentUserRef = collection(db, "users");
+            await updateDoc(doc(currentUserRef, auth.currentUser.uid), {
+                likedposts: templikedposts
+            })
+            console.log("Liked: 1) added likedusers to post 2) added likedposts to user");
+            setShouldIFetchData(true);
+        }
+    }
+
     return (
         <div className="newsfeedbody">
             <div className="newsfeed">
@@ -120,23 +197,26 @@ const Home = (props) => {
                             return (
                                 <div className="post" key={index}>
                                     <h2 className="postusername">{post.name}</h2>
+                                    <img className="postuserpic" src={`${post.profilePicUrl}`} alt="user profile"></img>
                                     <img className="postimage" src={`${post.imageUrl}`} alt="uploaded by user"></img>
                                     <div className="postcaption">{post.caption}</div>
                                     <div className="postdateposted">Posted at {dateString}</div>
+                                    <div className="likearea">
+                                        <button className="likebutton" onClick={() => likePost(post)}>Like</button>
+                                        <div className="likes">{post.likes.length}</div>
+                                    </div>
                                     <div className="postcommentarea">
                                         <img src={profilepic} alt="default profile"></img>
                                         <div className="commentcurrentuser">{getAuth().currentUser.displayName}</div>
-                                        <input className="commentinput" type={"text"} placeholder="Add a comment..."></input>
+                                        <input ref={inputRef} className="commentinput" type={"text"} placeholder="Add a comment..." onChange={handleChange}></input>
+                                        <button className="confirmcomment" onClick={() => postComment(post)}>Post comment</button>
                                         {post.comments.map((comment, index) => {
                                             return (
-                                                <div className="commentcomment">{comment}</div>
+                                                <div key={index} className="commentcomment">{comment.commenttext}</div>
                                             )
                                         })}
                                     </div>
-                                    <div className="likearea">
-                                        <button className="likebutton">Like</button>
-                                        <div className="likes">{post.likes}</div>
-                                    </div>
+                                    
                                     
                                 </div>
                                 )
@@ -154,26 +234,3 @@ const Home = (props) => {
 }
 
 export default Home;
-
-    // const followUser = async (user) => {
-    //     console.log(tempUserData.following);
-    //     console.log("abnove this");
-    //     console.log(user.uid);
-    //     console.log(auth.currentUser.uid);
-    //     if (user.uid === auth.currentUser.uid) {
-    //         console.log("you can't follow yourself!")
-    //     } else {
-    //         if (tempUserData.following.includes(user.uid)) {
-    //             //
-    //             console.log("it isn't working!")
-    //         } else {
-    //             console.log("WRITING DATA")
-    //             tempUserData.following.push(user.uid);
-    //             const currentuserDocRef = doc(db, "users", auth.currentUser.uid);
-    //             await updateDoc(currentuserDocRef, {
-    //                 "following": tempUserData.following,
-    //             })
-    //             setShouldIFetchData(true);
-    //         }
-    //     }
-    // }

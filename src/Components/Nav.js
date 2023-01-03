@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../CSS/Nav.css"
 import CreatePost from "./CreatePost";
@@ -24,6 +24,17 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 const Nav = (props) => {
+    console.log(props);
+    
+    const [auth, setAuth] = useState(getAuth());
+
+    useEffect(() => {
+        if (props.shouldIUpdateNav === true) {
+            console.log("getting auth for nav.")
+            setAuth(getAuth());
+            props.setShouldIUpdateNav(false);
+        }
+    }, [props.shouldIUpdateNav])
 
     const signout = () => {
         console.log("signing out");
@@ -42,8 +53,8 @@ const Nav = (props) => {
                     <Link className="logotitle" to={"/"}><h1 className="logotitle">Instagram</h1></Link>
                 </div>
                 <div className="usersection">
-                    <img className="navprofilepicture" src={getAuth().currentUser.photoURL} alt="user's profile"></img>
-                    <h2 className="navusername">{getAuth().currentUser.displayName}</h2>
+                    <img className="navprofilepicture" src={auth.currentUser.photoURL} alt="user's profile"></img>
+                    <h2 className="navusername">{auth.currentUser.displayName}</h2>
                 </div>
                 <div className="createpostbutton" onClick={ () => props.setCreatePost(<CreatePost setCreatePost={props.setCreatePost}/>)}>Create</div>
                 <Link className="profiletitle" to={"/profile"}><h2 className="profiletitle">Profile</h2></Link>

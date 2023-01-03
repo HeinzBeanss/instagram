@@ -132,9 +132,11 @@ const Signup = () => {
                     const docRef = setDoc(doc(db, "users", auth.currentUser.uid), {
                       displayName: signUpUsername,
                       photoURL: "https://firebasestorage.googleapis.com/v0/b/instagram-ed084.appspot.com/o/default-profile-picture.png?alt=media&token=46359339-51c1-43b6-8a15-c79ca3981d21",
+                      description: "",
                       uid: auth.currentUser.uid,
                       followers: [],
                       following: [],
+                      likedposts: [],
                     });
                     console.log("User Added to Firestore Database");
                     console.log("Document written with ID: ", docRef.id);
