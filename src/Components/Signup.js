@@ -116,7 +116,7 @@ const Signup = () => {
 
                 updateProfile(auth.currentUser, {
                     displayName: signUpUsername, 
-                    // photoURL: "https://example.com/jane-q-user/profile.jpg"
+                    photoURL: "https://firebasestorage.googleapis.com/v0/b/instagram-ed084.appspot.com/o/default-profile-picture.png?alt=media&token=46359339-51c1-43b6-8a15-c79ca3981d21",
                   }).then(() => {
                     console.log("profile updated!")
                     console.log(auth.currentUser.displayName);
@@ -131,6 +131,7 @@ const Signup = () => {
                     console.log("generating user");
                     const docRef = setDoc(doc(db, "users", auth.currentUser.uid), {
                       displayName: signUpUsername,
+                      photoURL: "https://firebasestorage.googleapis.com/v0/b/instagram-ed084.appspot.com/o/default-profile-picture.png?alt=media&token=46359339-51c1-43b6-8a15-c79ca3981d21",
                       uid: auth.currentUser.uid,
                       followers: [],
                       following: [],

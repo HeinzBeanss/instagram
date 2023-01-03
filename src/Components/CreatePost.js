@@ -44,14 +44,29 @@ const auth = getAuth(app);
 const CreatePost = (props) => {
 
     const [file, setFile] = useState();
+    const [caption, setCaption] = useState();
     const [displayNoneStyle, setDisplayNoneStyle] = useState();
     const [uploadImageArea, setUploadImageArea] = useState();
+
+    const handleChange = (e) => {
+      setCaption(e.target.value);
+      console.log(caption);
+    }
 
     var LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif?a';
 
     async function onMediaFileSelected(event) {
         event.preventDefault();
         var file = event.target.files[0];
+        if (!file.type.match('image.*')) { 
+          var data = {
+            message: 'You can only share images',
+            timeout: 2000,
+          };
+          console.log("NOT AN IMAGE")
+          return;
+        }
+
         setFile(file);
         console.log(event.target.files);
         console.log(file);
@@ -68,19 +83,7 @@ const CreatePost = (props) => {
         // Clear the selection in the file picker input.
         // imageFormElement.reset(); 
       
-        // Check if the file is an image.
-        // if (!file.type.match('image.*')) { 
-        //   var data = {
-        //     message: 'You can only share images',
-        //     timeout: 2000,
-        //   };
-        //   signInSnackbarElement.MaterialSnackbar.showSnackbar(data);
-        //   return;
-        // }
-        // Check if the user is signed-in
-        // if (checkSignedInWithMessage()) {
-            
-        // }
+        
       }
 
       function getUserName() {
@@ -88,15 +91,28 @@ const CreatePost = (props) => {
         return getAuth().currentUser.displayName;
       }
 
+      function getUserUid() {
+        console.log("GETTING USER UID");
+        return getAuth().currentUser.uid;
+      }
+
+      function getProfilePicUrl() {
+        return getAuth().currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/instagram-ed084.appspot.com/o/default-profile-picture.png?alt=media&token=46359339-51c1-43b6-8a15-c79ca3981d21';
+      }
+
       async function saveImageMessage(file) {
         try {
           console.log("adding doc");
           // 1 - We add a message with a loading icon that will get updated with the shared image.
-          const messageRef = await addDoc(collection(getFirestore(), 'messages'), {
+          const messageRef = await addDoc(collection(getFirestore(), 'posts'), {
             name: getUserName(),
+            useruid: getUserUid(),
             imageUrl: LOADING_IMAGE_URL,
-            // profilePicUrl: getProfilePicUrl(),
-            timestamp: serverTimestamp()
+            profilePicUrl: getProfilePicUrl(),
+            timestamp: serverTimestamp(),
+            caption: caption,
+            likes: 0,
+            comments: [],
           });
       
           // 2 - Upload the image to Cloud Storage.
@@ -134,7 +150,7 @@ const CreatePost = (props) => {
                     mediaCaptureElement.click();
                 }}>Upload an Image</div>
                 {uploadImageArea}
-                <textarea className="captionarea" placeholder="Write a caption..."></textarea>
+                <textarea className="captionarea" placeholder="Write a caption..." onChange={handleChange}></textarea>
                 <div className="sharepostbuttonarea">
                     <button className="sharepostbutton" onClick={ () => saveImageMessage(file)}>Share</button>
                 </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -99,7 +100,7 @@ const Explore = () => {
             return (
                 <div key={i}>
                     <div>{index.uid}</div>
-                    <div>{index.displayName}</div>
+                    <Link to={`/user/${index.displayName}`}><div>{index.displayName}</div></Link>
                     <button onClick={ () => followUser(index)}>Follow</button>
                 </div>
             )

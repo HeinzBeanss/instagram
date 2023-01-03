@@ -10,6 +10,7 @@ import Home from "./Components/Home";
 import Profile from "./Components/Profile";
 import Signup from "./Components/Signup";
 import Explore from "./Components/Explore";
+import User from "./Components/User";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -75,6 +76,7 @@ function App() {
             <Route path={"/"} element={<Home createPost={createPost}/>} />
             <Route path={"/profile"} element={ <Profile /> } />
             <Route path={"/explore"} element={ <Explore /> } />
+            <Route path={"/user/:useruid"} element={ <User />} />
         </Routes>
     </BrowserRouter>
     )

@@ -41,6 +41,10 @@ const Nav = (props) => {
                     {/* <img src="."></img> */}
                     <Link className="logotitle" to={"/"}><h1 className="logotitle">Instagram</h1></Link>
                 </div>
+                <div className="usersection">
+                    <img className="navprofilepicture" src={getAuth().currentUser.photoURL} alt="user's profile"></img>
+                    <h2 className="navusername">{getAuth().currentUser.displayName}</h2>
+                </div>
                 <div className="createpostbutton" onClick={ () => props.setCreatePost(<CreatePost setCreatePost={props.setCreatePost}/>)}>Create</div>
                 <Link className="profiletitle" to={"/profile"}><h2 className="profiletitle">Profile</h2></Link>
                 <Link className="searchtitle" to={"/explore"}><h2>Explore</h2></Link>

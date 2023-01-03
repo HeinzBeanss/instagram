@@ -21,6 +21,22 @@
     color:  red;
 } */
 
+.usersection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.navprofilepicture {
+    width: 50px;
+}
+
+.navusername {
+    font-size: 1.5rem;
+}
+
+
 .profiletitle:visited, .profiletitle:link, .logotitle, .searchtitle {
     color: white;
     text-decoration: none;
