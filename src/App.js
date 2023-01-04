@@ -53,6 +53,22 @@ const db = getFirestore(app);
 
 function App() {
 
+  // DARK/LIGHT THEME 
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+      if (theme === 'light') {
+        setTheme('dark');
+      } else {
+        setTheme('light');
+      }
+    };
+
+    useEffect(() => {
+      console.log("changing theme");
+      document.body.className = theme;
+    }, [theme])
+
   // FOR NAV
   const [shouldIUpdateNav, setShouldIUpdateNav] = useState();
 
@@ -81,10 +97,11 @@ function App() {
  
  if (isLoggedIn) {
   return (
+    
     <BrowserRouter >
     {createPost}
     {/* ADD basename={process.env.PUBLIC_URL} to the BrowserRouter element when deploying! */}
-        <Nav setCreatePost={setCreatePost} shouldIUpdateNav={shouldIUpdateNav} setShouldIUpdateNav={setShouldIUpdateNav}/>
+        <Nav setCreatePost={setCreatePost} shouldIUpdateNav={shouldIUpdateNav} setShouldIUpdateNav={setShouldIUpdateNav} toggleTheme={toggleTheme}/>
         
         <Routes>
             <Route path={"/sign-up"} />

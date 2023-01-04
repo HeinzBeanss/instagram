@@ -1,5 +1,8 @@
 .newsfeedbody {
     width: calc(100% - 400px);
+    margin-left: 400px;
+    /* box-sizing: border-box; */
+    padding: 20px;
     display: flex;
     justify-content: center;
 }
@@ -7,6 +10,148 @@
 .newsfeed {
     box-sizing: border-box;
     width: 600px;
-    border: red 1px solid;
+    background-color: var(--newsfeed);
+    color: var(--onnavandposts);
     height: 100vh;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    background-color: var(--navandposts);
+    border: var(--light-border1px);
+    margin-bottom: 15px;
+}
+
+.posttoparea {
+    display: flex;
+    padding: 15px;
+    align-items: center;
+}
+
+.postuserpic {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.postusername {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.postimage {
+    object-fit: cover;
+    width: 600px;
+    height: 600px;
+
+}
+
+.likeanddatearea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.postdateposted {
+    margin-right: 12px;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--faded-text);
+}
+
+.likearea {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.likebutton {
+    filter: var(--svg);
+    margin-right: 10px;
+}
+
+.postdescarea {
+    padding: 10px;
+    border-bottom: var(--light-border1px);
+}
+
+.postdescusername {
+    font-size: 0.9rem;
+    padding-bottom: 5px;
+    font-weight: 500;
+
+}
+
+.postcaption {
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.postcomments {
+    display: flex;
+    flex-direction: column;    
+
+}
+.userofcomment {
+    margin-right: 5px;
+    font-weight: 400;
+}
+
+.acomment {
+    display: flex;
+    /* padding: 10px; */
+    margin: 10px;
+}
+
+.commentcomment {
+    font-weight: 300;
+}
+
+.postcommentinputarea {
+    display: flex;
+    align-items: center;
+    border-top: var(--light-border1px);
+    padding: 12px 10px;
+    justify-content: space-between;
+}
+.commentinput {
+    margin-top: 2px;
+    display: flex;
+    width: 100%;
+}
+
+.commentinputbox {
+    color: var(--onnavandposts);
+    background-color: var(--navandposts);
+    border-style: none;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.commentinputbox:focus {
+    outline: none;
+}
+
+.confirmcomment {
+    border-radius: 0.5rem;
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: var(--navandposts);
+    color: var(--onnavandposts);
+    border: 1px solid transparent;
+
+}
+
+.confirmcomment:hover {
+    border: var(--light-border1px);
+}
+.commentsmile {
+    width: 30px;
+    height: 30px;
+    filter: var(--svg);
+    margin-right: 10px;
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../CSS/Explore.css"
 import { Link } from "react-router-dom";
 
 import { initializeApp } from "firebase/app";
@@ -96,23 +97,45 @@ const Explore = () => {
     }
 
     return (
-        <div>{users.map((index, i) => {
+        <div className="explorepage">
+            <div className="explorepagecontent">
+
+            
+            <h2 className="exploretitle">Explore</h2>
+            <div className="exploredesc">Find other interesting users to follow here.</div>
+            
+            <div className="exploreusergrid">
+            {users.map((index, i) => {
             return (
-                <div key={i}>
-                    <div>{index.uid}</div>
-                    <Link to={`/user/${index.uid}`} state={{ 
-                        displayName: index.displayName,
-                        followers: index.followers,
-                        following: index.following, 
-                        photoURL: index.photoURL,
-                        uid: index.uid,
-                        description: index.description,
-                     }}><div>{index.displayName}</div></Link>
-                     <div>{index.description}</div>
-                    <button onClick={ () => followUser(index)}>Follow</button>
+                <div className="exploreusercard" key={i}>
+                    <img className="exploreuserimage" src={index.photoURL} alt="user"></img>
+                    <div className="exploreuserrightside">
+                        <div>
+                        <Link className="exploreusername" to={`/user/${index.uid}`} state={{ 
+                            displayName: index.displayName,
+                            followers: index.followers,
+                            following: index.following, 
+                            photoURL: index.photoURL,
+                            uid: index.uid,
+                            description: index.description,
+                         }}><div>{index.displayName}</div></Link>
+                         <div className="exploreuserdesc">{index.description}</div>
+                         </div>
+                         
+                         <div className="exploreuserrightsidebot">
+                         <div className="explorefollowinginfo">
+                            <div>{index.followers.length} followers</div>
+                            <div>{index.following.length} following</div>
+                         </div>
+                        <button className="explorefollowbutton" onClick={ () => followUser(index)}>Follow</button>
+                        </div>
+                    </div>
                 </div>
-            )
-        })}</div>
+                )
+            })}
+            </div>
+            </div>
+        </div>
         )
 }
 

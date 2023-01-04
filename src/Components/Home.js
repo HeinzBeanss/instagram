@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import "../CSS/Home.css"
+import heartsvg from "../Assets/heart.svg";
+import smilesvg from "../Assets/smile.svg";
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -195,25 +197,42 @@ const Home = (props) => {
                         } else {
                             return (
                                 <div className="post" key={index}>
-                                    <h2 className="postusername">{post.name}</h2>
-                                    <img className="postuserpic" src={`${post.profilePicUrl}`} alt="user profile"></img>
-                                    <img className="postimage" src={`${post.imageUrl}`} alt="uploaded by user"></img>
-                                    <div className="postcaption">{post.caption}</div>
-                                    <div className="postdateposted">Posted at {dateString}</div>
-                                    <div className="likearea">
-                                        <button className="likebutton" onClick={() => likePost(post)}>Like</button>
-                                        <div className="likes">{post.likes.length}</div>
+                                    <div className="posttoparea">
+                                        <img className="postuserpic" src={`${post.profilePicUrl}`} alt="user profile"></img>
+                                        <h2 className="postusername">{post.name}</h2>
                                     </div>
-                                    <div className="postcommentarea">
-                                        <img src={profilepic} alt="default profile"></img>
-                                        <div className="commentcurrentuser">{getAuth().currentUser.displayName}</div>
-                                        <input ref={inputRef} className="commentinput" type={"text"} placeholder="Add a comment..." onChange={handleChange}></input>
-                                        <button className="confirmcomment" onClick={() => postComment(post)}>Post comment</button>
+                                    <img className="postimage" src={`${post.imageUrl}`} alt="uploaded by user"></img>
+                                    <div className="likeanddatearea">
+                                        <div className="likearea">
+                                            <img src={heartsvg} alt="like" className="likebutton" onClick={() => likePost(post)}></img>
+                                            <div className="likes">{post.likes.length} likes</div>
+                                        </div>
+                                        <div className="postdateposted">Posted at {dateString}</div>
+                                    </div>
+                                    
+                                    <div className="postdescarea">
+                                        <div className="postdescusername">{post.name}</div>
+                                        <div className="postcaption">{post.caption}</div>
+                                    </div>
+
+                                    <div className="postcomments">
                                         {post.comments.map((comment, index) => {
-                                            return (
-                                                <div key={index} className="commentcomment">{comment.commenttext}</div>
-                                            )
-                                        })}
+                                                return (
+                                                    <div className="acomment">
+                                                        <div className="userofcomment">{comment.username}</div>
+                                                        <div key={index} className="userofcomment">{comment.commenttext}</div>
+                                                    </div>
+                                                    
+                                                )
+                                            })}
+                                    </div>
+
+                                    <div className="postcommentinputarea">
+                                        <img src={smilesvg} alt="smiley face" className="commentsmile"></img>
+                                            <div className="commentinput">
+                                            <input ref={inputRef} className="commentinputbox" type={"text"} placeholder="Add a comment..." onChange={handleChange}></input>
+                                            <button className="confirmcomment" onClick={() => postComment(post)}>Post</button>
+                                            </div>
                                     </div>
                                     
                                     

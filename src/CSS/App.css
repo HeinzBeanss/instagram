@@ -2,37 +2,39 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body.light {
+  --navandposts: #ffffff;
+  --onnavandposts: #262626;
+  --newsfeed: #fafafa;
+  --extra: #2fa8f7;
+  --onextra: #ffffff;
+  --light-border: 2px solid #e3e3e3;
+  --light-border1px: 1px solid #e3e3e3;
+  --dark-border: 2px solid #dedede;
+  --dark-border1px: 1px solid #dedede;
+  --buttonbackground: #efefef;
+  --onbutton: #000000;
+  --faded-text: #575757;
+  --svg: invert(0%) sepia(92%) saturate(32%) hue-rotate(22deg) brightness(97%) contrast(100%);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body.dark {
+  --navandposts: #000000;
+  --onnavandposts: #fafafa;
+  --newsfeed: #121212;
+  --extra: #056fb5;
+  --onextra: #ffffff;
+  --light-border: 2px solid #363636;
+  --light-border1px: 1px solid #363636;
+  --dark-border: 2px solid #262626;
+  --dark-border1px: 1px solid #262626;
+  --buttonbackground: #efefef;
+  --onbutton: #000000;
+  --faded-text: #c9c9c9;
+  --svg: invert(100%) sepia(100%) saturate(0%) hue-rotate(275deg) brightness(100%) contrast(103%);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+  /* background-color: red; */
+  background-color: var(--newsfeed);
 }

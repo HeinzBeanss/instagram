@@ -51,14 +51,15 @@ const Nav = (props) => {
                     <Link className="logotitle" to={"/"}><h1 className="logotitle">Instagram</h1></Link>
                 </div>
                 <div className="usersection">
-                    <img className="navprofilepicture" src={auth.currentUser.photoURL} alt="user's profile"></img>
-                    <h2 className="navusername">{auth.currentUser.displayName}</h2>
+                    <Link to={"/profile"}><img className="navprofilepicture" src={auth.currentUser.photoURL} alt="user's profile"></img></Link>
+                    <Link className="navusername" to={"/profile"}><h2 className="navusername">{auth.currentUser.displayName}</h2></Link>
                 </div>
                 <div className="createpostbutton" onClick={ () => props.setCreatePost(<CreatePost setCreatePost={props.setCreatePost}/>)}>Create</div>
                 <Link className="profiletitle" to={"/profile"}><h2 className="profiletitle">Profile</h2></Link>
                 <Link className="searchtitle" to={"/explore"}><h2>Explore</h2></Link>
             </div> 
             <div className="bottomsection">
+                <button onClick={props.toggleTheme}>Switch Theme</button>
                 <div className="settings">Settings</div>
                 <div className="signoutbutton" onClick={signout}>Sign out</div>
             </div>

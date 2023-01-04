@@ -8,7 +8,7 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .createbody {
@@ -16,12 +16,13 @@
     top: calc(50% - 400px);
     left: calc(50% - 400px);
     box-sizing: border-box;
-    background-color: rgb(243, 243, 243);
+    background-color: var(--newsfeed);
     /* left: 400px; */
     height: 800px;
     width: 800px;
-    border-radius: 2rem;
-    border: 5px solid #0F2027;
+    border-radius: 1rem;
+    color: var(--onnavandposts);
+    /* border: var(--light-border); */
     display: flex;
     flex-direction: column;
     z-index: 1;
@@ -29,8 +30,8 @@
 
 .createaposttitle {
     text-align: center;
-    padding: 10px;
-    border-bottom: solid 2px #0F2027;
+    padding: 15px;
+    border-bottom: var(--dark-border1px);
 }
 
 .exitcreatepost {
@@ -47,47 +48,46 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    background-color: rgb(234, 234, 234);
+    background-color: var(--newsfeed);
 }
 
 .captionarea {
     font-size: 1rem;
     height: 15%;
     border: 0;
-    border-top: solid #0F2027 2px;
+    background-color: var(--newsfeed);
+    color: var(--onnavandposts);
+    border-top: var(--dark-border1px);
     padding: 10px;
     resize: none;
     outline: 0;
-    
 }
 
 .sharepostbuttonarea {
     width: 100%;
     padding: 10px;
+    padding-bottom: 20px;
     display: flex;
     justify-content: center;
 }
 
 .sharepostbutton {
-    width: 30%;
-    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    color: white;
-    font-size: 1.2rem;
+    width: 25%;
+    background-color: var(--extra);
+    color: var(--onextra);
+    font-size: 1rem;
     border: 0;
-    border-radius: 1rem;
-    padding: 10px;
-    /* border: 2px solid white; */
-    /* border: 2px solid transparent; */
+    border-radius: 0.5rem;
+    padding: 8px;
+
 }
 
 /* .sharepostbutton:hover {
-    border:  2px solid white;
+
 } */
 
 .fileclick {
     display: none;
-    /* otber one */
 }
 
 .tempimageupload {
