@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "../CSS/Nav.css"
 import CreatePost from "./CreatePost";
 
+
+
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signOut } from "firebase/auth";
@@ -41,6 +43,8 @@ const Nav = (props) => {
         })
 
     }
+    
+    
 
     return (
         <div className="sidebarbody">
@@ -52,16 +56,20 @@ const Nav = (props) => {
                 </div>
                 <div className="usersection">
                     <Link to={"/profile"}><img className="navprofilepicture" src={auth.currentUser.photoURL} alt="user's profile"></img></Link>
-                    <Link className="navusername" to={"/profile"}><h2 className="navusername">{auth.currentUser.displayName}</h2></Link>
+                    <Link className="navusernamelink" to={"/profile"}><h2 className="navusername">{auth.currentUser.displayName}</h2></Link>
                 </div>
                 <div className="createpostbutton" onClick={ () => props.setCreatePost(<CreatePost setCreatePost={props.setCreatePost}/>)}>Create</div>
                 <Link className="profiletitle" to={"/profile"}><h2 className="profiletitle">Profile</h2></Link>
                 <Link className="searchtitle" to={"/explore"}><h2>Explore</h2></Link>
             </div> 
             <div className="bottomsection">
-                <button onClick={props.toggleTheme}>Switch Theme</button>
-                <div className="settings">Settings</div>
-                <div className="signoutbutton" onClick={signout}>Sign out</div>
+            <div className="signoutbutton" onClick={signout}>Sign out</div>
+                <div className="themearea">
+                    <button className="switchthemetext">Switch Theme</button>
+                    <img src={props.themesvg} alt="theme svg" className="switchthemebutton" onClick={props.toggleTheme}></img>
+
+                </div>
+                
             </div>
 
             

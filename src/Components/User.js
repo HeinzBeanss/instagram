@@ -71,23 +71,32 @@ const User = () => {
 
     return (
         <div className="usercontainer">
-          <div className="usertopsection">
-            <h2>{location.state.displayName}</h2>
-            <img src={location.state.photoURL} alt="user's profile"></img>
-          </div>
+          <div className="usercontent">
+            <div className="usertopsection">
+              <img className="useruserimage" src={location.state.photoURL} alt="user's profile"></img>
+                <div className="usertopsectionright">
+                  <div className="usertopsectionrighttop">
+                    <h2 className="userusername">{location.state.displayName}</h2>
+                  </div>
+
+                  <div className="usertopsectionrightmid">
+                    <div>Followers: {location.state.followers.length}</div>
+                    <div>Following: {location.state.following.length}</div>
+                  </div>
+
+                  <div className="usertopsectionrightbot">
+                    <div className="userdesc">{location.state.description}</div>  
+                  </div>
+              </div>
+            </div>
           
-          <div className="profiledesc">{location.state.description}</div>
-          <div className="profilefollowing">
-            {/* <div>Followers: {location.state.followers.length}</div>
-            <div>Following: {location.state.following.length}</div> */}
-          </div>
-          
-          <div className="profilearea">
-            {singleUserPosts.map((post, index) => {
-              return (
-                <img key={index} src={post.imageUrl} alt="user post"></img>
-              )
-            })}
+            <div className="userarea">
+              {singleUserPosts.map((post, index) => {
+                return (
+                  <img className="userimage" key={index} src={post.imageUrl} alt="user post"></img>
+                )
+              })}
+            </div>
           </div>
         </div>
     )

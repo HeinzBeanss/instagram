@@ -107,7 +107,7 @@ const Home = (props) => {
 
             const fetchPosts = async () => {
                 let temppostsarray = [];
-                const q = query(collection(db, "posts"), orderBy("timestamp"), limit(10));
+                const q = query(collection(db, "posts"), orderBy("timestamp"), limit(25));
                 const querySnapshot = await getDocs(q);
                 console.log("FETCHING POSTS");
                 querySnapshot.forEach((doc) => {
@@ -220,7 +220,7 @@ const Home = (props) => {
                                                 return (
                                                     <div className="acomment">
                                                         <div className="userofcomment">{comment.username}</div>
-                                                        <div key={index} className="userofcomment">{comment.commenttext}</div>
+                                                        <div key={index} className="commentcomment">{comment.commenttext}</div>
                                                     </div>
                                                     
                                                 )

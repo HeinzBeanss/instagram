@@ -85,11 +85,19 @@ const Explore = () => {
                 //
                 console.log("it isn't working!")
             } else {
-                console.log("WRITING DATA")
+                console.log("WRITING DATA - updating following for current user");
                 tempUserData.following.push(user.uid);
                 const currentuserDocRef = doc(db, "users", auth.currentUser.uid);
                 await updateDoc(currentuserDocRef, {
                     "following": tempUserData.following,
+                })
+
+                console.log("WRITING DATA - updating followers for target user");
+                let temptargetuserfollowers = user.followers;
+                temptargetuserfollowers.push(auth.currentUser.uid);
+                const targetuserDocRef = doc(db, "users", user.uid);
+                await updateDoc(targetuserDocRef, {
+                    "followers": temptargetuserfollowers,
                 })
                 setShouldIFetchData(true);
             }

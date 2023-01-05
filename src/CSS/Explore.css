@@ -17,7 +17,7 @@
     width: 800px;
     background-color: var(--navandposts);
     color: var(--onnavandposts);
-    height: 100vh;
+    height: calc(100vh - 80px);
     padding: 20px;
 }
 

@@ -2,6 +2,9 @@ import './CSS/App.css';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
+import sun from "./Assets/sun.svg";
+import moon from "./Assets/moon.svg";
+
 // import Nav from "./Components/Nav";
 import Loading from "./Components/Loading";
 import CreatePost from './Components/CreatePost';
@@ -55,12 +58,15 @@ function App() {
 
   // DARK/LIGHT THEME 
   const [theme, setTheme] = useState("light");
+  const [themesvg, setThemesvg] = useState(sun);
 
   const toggleTheme = () => {
       if (theme === 'light') {
         setTheme('dark');
+        setThemesvg(moon);
       } else {
         setTheme('light');
+        setThemesvg(sun);
       }
     };
 
@@ -101,7 +107,7 @@ function App() {
     <BrowserRouter >
     {createPost}
     {/* ADD basename={process.env.PUBLIC_URL} to the BrowserRouter element when deploying! */}
-        <Nav setCreatePost={setCreatePost} shouldIUpdateNav={shouldIUpdateNav} setShouldIUpdateNav={setShouldIUpdateNav} toggleTheme={toggleTheme}/>
+        <Nav setCreatePost={setCreatePost} shouldIUpdateNav={shouldIUpdateNav} setShouldIUpdateNav={setShouldIUpdateNav} toggleTheme={toggleTheme} themesvg={themesvg}/>
         
         <Routes>
             <Route path={"/sign-up"} />

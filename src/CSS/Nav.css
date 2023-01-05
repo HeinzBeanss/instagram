@@ -17,29 +17,36 @@
 .logotitle {
     margin: 0;
     margin-bottom: 30px;
+    font-size: 2.4rem;
 }
 
 .usersection {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    /* align-items: center; */
     gap: 10px;
     margin-bottom: 20px;
     /* border-bottom: var(--light-border1px); */
 }
 
 .navprofilepicture {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 50%;
-    border: var(--light-border1px);
+    /* border: var(--light-border1px); */
 }
 
 .navusername {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 0;
+    padding-bottom: 15px;
+    border-bottom: var(--dark-border1px);
 }
 
-.profiletitle:visited, .profiletitle:link, .logotitle, .searchtitle, .navusername:visited, .navusername:link {
+.profiletitle:visited, .profiletitle:link, .logotitle, .searchtitle, .navusernamelink:visited,   
+.navusernamelink:link, .bottomsection {
     color: var(--onnavandposts);
     text-decoration: none;
 }
@@ -67,4 +74,29 @@ h2 {
     font-size: 1.4rem;
     font-weight: 500;
     margin-bottom: 10px;
+}
+
+.themearea {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.switchthemebutton {
+    background-color: var(--opposite);
+    padding: 10px;
+    border-radius: 0.6rem;
+}
+
+.switchthemetext {
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.2rem;
+    background-color: var(--navandposts);
+    color: var(--onnavandposts);
+}
+
+.bottomsection {
+    width: 100%;
 }

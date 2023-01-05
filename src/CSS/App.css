@@ -5,7 +5,7 @@
 body.light {
   --navandposts: #ffffff;
   --onnavandposts: #262626;
-  --newsfeed: #fafafa;
+  --newsfeed: #f0f0f0;
   --extra: #2fa8f7;
   --onextra: #ffffff;
   --light-border: 2px solid #e3e3e3;
@@ -15,11 +15,12 @@ body.light {
   --buttonbackground: #efefef;
   --onbutton: #000000;
   --faded-text: #575757;
+  --opposite: #121212;
   --svg: invert(0%) sepia(92%) saturate(32%) hue-rotate(22deg) brightness(97%) contrast(100%);
 }
 
 body.dark {
-  --navandposts: #000000;
+  --navandposts: #0c0c0c;
   --onnavandposts: #fafafa;
   --newsfeed: #121212;
   --extra: #056fb5;
@@ -31,6 +32,7 @@ body.dark {
   --buttonbackground: #efefef;
   --onbutton: #000000;
   --faded-text: #c9c9c9;
+  --opposite: #fafafa;
   --svg: invert(100%) sepia(100%) saturate(0%) hue-rotate(275deg) brightness(100%) contrast(103%);
 }
 

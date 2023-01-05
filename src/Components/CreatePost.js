@@ -155,7 +155,7 @@ const CreatePost = (props) => {
                     const mediaCaptureElement = document.querySelector(".fileclick");
                     console.log(mediaCaptureElement);
                     mediaCaptureElement.click();
-                }}>Upload an Image</div>
+                }}>Click here to upload an image</div>
                 {uploadImageArea}
                 <textarea className="captionarea" placeholder="Write a caption..." onChange={handleChange}></textarea>
                 <div className="sharepostbuttonarea">
@@ -164,7 +164,7 @@ const CreatePost = (props) => {
                 
             </div>
 
-            <div className="exitcreatepost" onClick={ () => props.setCreatePost([])}>X</div>
+            <div className="exitcreatepost" onClick={ () => props.setCreatePost([])}></div>
             <div className="createpostbody" onClick={ () => props.setCreatePost([])}>
             
         </div>

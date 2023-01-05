@@ -1,3 +1,112 @@
 .profilefileclick {
     display: none;
 }
+
+.profilecontainer {
+    display: flex;
+    justify-content: center;
+    margin-left: 400px;
+    background-color: var(--newsfeed);
+    width: calc(100% - 400px);
+    
+}
+
+.profilecontent {
+    display: flex;
+    flex-direction: column;
+    margin: 40px;
+    border-radius: 0.8rem;
+    border: var(--light-border1px);
+    box-sizing: border-box;
+    width: 800px;
+    background-color: var(--navandposts);
+    color: var(--onnavandposts);
+    height: calc(100vh - 80px);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profiletopsection {
+    display: flex;
+    padding: 30px 100px;
+    padding-bottom: 30px;
+    
+    border-bottom: var(--light-border1px);
+    margin-bottom: 20px;
+}
+
+.profileuserimage {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profiletopsectionright {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* justify-content: space-around; */
+    gap: 20px;
+}
+
+.profiletopsectionrighttop {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profilename {
+    margin: 0;
+}
+
+.editbiobutton, .savebiobutton {
+    background-color: var(--buttonbackground);
+    color: var(--onbutton);
+    border: none;
+    font-size: 1rem;
+    padding: 10px 50px;
+    border-radius: 0.5rem;
+}
+
+.profiletopsectionrightmid {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profilearea {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.profileimage {
+    border-radius: 0.2rem;
+    width: 100%;
+    object-fit: cover;
+    height: 250px;
+}
+
+.profiledesc {
+
+}
+
+.profiledescinput {
+    outline: none;
+    border: none;
+    background-color: var(--newsfeed);
+    font-weight: 300;
+    padding: 10px;
+    border-radius: 0.5rem;
+    width: 100%;
+    font-size: 1rem;
+    color: var(--faded-text);
+    font-family: inherit;
+    font-size: inherit;
+    outline: 0;
+    resize: none;
+}
