@@ -17,20 +17,20 @@
     width: 800px;
     background-color: var(--navandposts);
     color: var(--onnavandposts);
-    height: calc(100vh - 80px);
+    height: fit-content;
     padding: 20px;
 }
 
 .exploretitle {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     color: var(--onnavandposts);
     margin: 15px;
 }
 
-.exploredesc {
+/* .exploredesc {
     font-size: 1.2rem;
     margin-bottom: 20px;
-}
+} */
 
 .exploreusergrid {
     display: grid;
@@ -100,3 +100,65 @@
     font-weight: 300;
 
 }
+
+
+
+
+/* .imagehover {
+    position: relative;
+    background-color: red;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 250px;
+    visibility: hidden;
+} */
+
+/* .imagecontainer {
+    width: 100%;
+    height: 250px;
+    display: inline-block;
+}
+
+.imagehover {
+    display: none;
+    position: absolute;
+    top: 0;
+    width: 250px;
+    width: 100%;
+    z-index: 1;
+    background-color: red;
+}
+
+.imagecontainer:hover .imagehover {
+    display: block;
+} */
+
+
+
+.exploreimage {
+    position: relative;
+    width: 100%;
+
+}
+
+.exploreimageimage {
+    border-radius: 0.2rem;
+    width: 100%;
+    object-fit: cover;
+    height: 250px;
+}
+
+/* .test {
+    position: absolute;
+    background-color: red;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    z-index: 100;
+} */
+
+/* .test:hover {
+    visibility: visible;
+} */

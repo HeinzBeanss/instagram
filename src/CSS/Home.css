@@ -101,6 +101,11 @@
     font-weight: 400;
 }
 
+.userofcomment:visited, .userofcomment:link {
+    text-decoration: none;
+    color: var(--onnavandposts);
+}
+
 .acomment {
     display: flex;
     /* padding: 10px; */

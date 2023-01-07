@@ -137,15 +137,12 @@ const Profile = (props) => {
 
   // 
   const handleChange = (e) => {
-    console.log(e.target);
-    console.log("is this working");
-    // console.log(actualDesc);
-    console.log(e.target.value);
     setActualDesc(e.target.value);
   }
 
   // const editBio = () => {
   //   setDescElement(<input type="text" className="profiledescinput" placeholder="Enter a profile description..." onChange={handleChange}></input>)
+  // i didnt set value on the input above, that was probably it then right...
   //   setButtonElement(<button className="savebiobutton" onClick={startthesave}>Save bio</button>)
   // }
 

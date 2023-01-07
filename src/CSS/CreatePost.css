@@ -52,7 +52,7 @@
     background-color: var(--newsfeed);
 }
 
-.uploadimagearea:hover, .captionarea:hover {
+.uploadimagearea:hover {
     background-color: var(--navandposts);
 }
 

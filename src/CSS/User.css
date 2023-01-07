@@ -81,3 +81,12 @@
 /* .userdesc { 
 
  }  */
+
+ .userfollowbutton {
+    background-color: var(--buttonbackground);
+    color: var(--onbutton);
+    border: none;
+    font-size: 1rem;
+    padding: 8px 40px;
+    border-radius: 0.5rem;
+ }

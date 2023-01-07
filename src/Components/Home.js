@@ -45,6 +45,8 @@ const Home = (props) => {
     const inputRef = useRef(null);
     const [updateComment, setUpdateComment] = useState(false);
 
+
+
     useEffect(() => {
         if (updateComment === true) {
             console.log("comment has been updated fam!");
@@ -156,27 +158,47 @@ const Home = (props) => {
     }
 
     const likePost = async (post) => {
-        
-        if (post.likes.includes(tempUserData.uid)) {
-            console.log("this user already liked");
-        } else {
-            let templikes = post.likes;
-            templikes.push(tempUserData.uid);
-            const postRef = collection(db, "posts");
-            await updateDoc(doc(postRef, post.postid), {
-                likes: templikes,
-            });
+            // unlike if it's already liked
+            if (post.likes.includes(tempUserData.uid)) {
 
+                let templikes = post.likes;
+                const index = templikes.indexOf(post.useruid);
+                templikes.splice(index, 1);
+                const postRef = collection(db, "posts");
+                await updateDoc(doc(postRef, post.postid), {
+                    likes: templikes,
+                });
+    
+    
+                let templikedposts = tempUserData.likedposts;
+                const index2 = templikedposts.indexOf(post.postid);
+                templikedposts.splice(index2, 1);
+                const currentUserRef = collection(db, "users");
+                await updateDoc(doc(currentUserRef, auth.currentUser.uid), {
+                    likedposts: templikedposts
+                })
+                console.log("Liked: 1) added likedusers to post 2) added likedposts to user");
+                setShouldIFetchData(true);
 
-            let templikedposts = tempUserData.likedposts;
-            templikedposts.push(post.postid);
-            const currentUserRef = collection(db, "users");
-            await updateDoc(doc(currentUserRef, auth.currentUser.uid), {
-                likedposts: templikedposts
-            })
-            console.log("Liked: 1) added likedusers to post 2) added likedposts to user");
-            setShouldIFetchData(true);
-        }
+            } else {
+                // like it
+                let templikes = post.likes;
+                templikes.push(tempUserData.uid);
+                const postRef = collection(db, "posts");
+                await updateDoc(doc(postRef, post.postid), {
+                    likes: templikes,
+                });
+    
+    
+                let templikedposts = tempUserData.likedposts;
+                templikedposts.push(post.postid);
+                const currentUserRef = collection(db, "users");
+                await updateDoc(doc(currentUserRef, auth.currentUser.uid), {
+                    likedposts: templikedposts
+                })
+                console.log("Liked: 1) added likedusers to post 2) added likedposts to user");
+                setShouldIFetchData(true);
+            }   
     }
 
     return (
@@ -199,7 +221,22 @@ const Home = (props) => {
                                 <div className="post" key={index}>
                                     <div className="posttoparea">
                                         <img className="postuserpic" src={`${post.profilePicUrl}`} alt="user profile"></img>
-                                        <h2 className="postusername">{post.name}</h2>
+                                        {users.filter(user => {
+                                            return user.uid === post.useruid;
+                                        })
+                                        .map((user) => {
+                                            return (
+                                                <Link key={user.uid} className="exploreusername" to={`/user/${user.uid}`} state={{ 
+                                                    displayName: user.displayName,
+                                                    followers: user.followers,
+                                                    following: user.following, 
+                                                    photoURL: user.photoURL,
+                                                    uid: user.uid,
+                                                    description: user.description,
+                                                 }}><div>{user.displayName}</div></Link>
+                                            )
+                                        })}
+                                        {/* <h2 className="postusername">{post.name}</h2> */}
                                     </div>
                                     <img className="postimage" src={`${post.imageUrl}`} alt="uploaded by user"></img>
                                     <div className="likeanddatearea">
@@ -219,7 +256,22 @@ const Home = (props) => {
                                         {post.comments.map((comment, index) => {
                                                 return (
                                                     <div className="acomment">
-                                                        <div className="userofcomment">{comment.username}</div>
+                                                        {/* <div className="userofcomment">{comment.username}</div> */}
+                                                        {users.filter(user => {
+                                                                return user.uid === comment.useruid;
+                                                            })
+                                                            .map((user) => {
+                                                                return (
+                                                                    <Link key={user.uid} className="userofcomment" to={`/user/${user.uid}`} state={{ 
+                                                                        displayName: user.displayName,
+                                                                        followers: user.followers,
+                                                                        following: user.following, 
+                                                                        photoURL: user.photoURL,
+                                                                        uid: user.uid,
+                                                                        description: user.description,
+                                                                     }}><div>{user.displayName}</div></Link>
+                                                                )
+                                                            })}
                                                         <div key={index} className="commentcomment">{comment.commenttext}</div>
                                                     </div>
                                                     

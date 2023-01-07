@@ -41,6 +41,7 @@ const db = getFirestore(app);
 const Explore = () => {
 
     const [users, setUsers] = useState([]);
+    const [posts, setPosts] = useState([]);
     const [tempUserData, setTempUserData] = useState();
     const [shouldIFetchData, setShouldIFetchData] = useState(true);
 
@@ -67,13 +68,38 @@ const Explore = () => {
                     }
                 });
             }   
+
+            const fetchPosts = async () => {
+                let temparray = [];
+                const querySnapshot = await getDocs(collection(db, "posts"));
+                console.log("FETCHING POSTS");
+                querySnapshot.forEach((doc) => {
+                    if (temparray.includes(doc.data())) {
+                        // do nothing
+                    } else {
+                        if (doc.data().useruid === auth.currentUser.uid) {
+                            // do nothing
+                        } else {
+                            temparray.unshift(doc.data());
+                        }
+                        
+                    }
+                    // console.log(doc.data());
+                    setPosts(temparray);
+                    // setUsers(users => [...users, doc.data()])
+                })
+            }
+
             fetchUsers()
+            .catch(console.error);
+            fetchPosts()
             .catch(console.error);
             setShouldIFetchData(false);
         }
     }, [shouldIFetchData]);
 
     const followUser = async (user) => {
+        console.log(users)
         console.log(tempUserData.following);
         console.log("abnove this");
         console.log(user.uid);
@@ -104,15 +130,62 @@ const Explore = () => {
         }
     }
 
+    const [value, setValue] = useState("");
+
+    const onChange = (e) => {
+        setValue(e.target.value);
+    }
+
+    const onSearch = (searchTerm) => {
+        console.log("search ", searchTerm)
+    }
+
+
+    // const hoveringOverImage = () => {
+    //     setShowHover({});
+    //     console.log(showHover);
+    // }
+
+    // const hoveringOffImage = () => {
+    //     console.log("tes11");
+    //     setShowHover({display: "none"});
+    //     console.log(showHover);
+    // }
+
+    // onMouseOver={hoveringOverImage} onMouseLeave={hoveringOffImage}
+
+    const [showHover, setShowHover] = useState({display: "none"})
     return (
         <div className="explorepage">
             <div className="explorepagecontent">
+            <div className="searchcontainer">
+                <div className="searchcontainerinner">
+                    <input className="searchbar" placeholder="Search users..." value={value} onChange={onChange}></input>
+                    <button className="searchbutton" onClick={() => onSearch(value)}>Search</button>
+                </div>
+                <div className="dropdown">
+                    {users.filter(user => {
+                        const searchTerm = value.toLowerCase();
+                        const usersName = user.displayName.toLowerCase();
 
+                        return searchTerm && usersName.startsWith(searchTerm)
+                    })
+                    .map((user) => ( 
+                        <Link className="dropdown-row" key={user.uid} to={`/user/${user.uid}`} state={{ 
+                            displayName: user.displayName,
+                            followers: user.followers,
+                            following: user.following, 
+                            photoURL: user.photoURL,
+                            uid: user.uid,
+                            description: user.description,
+                         }}>{user.displayName}</Link>
+                    ))}
+                </div>
+            </div>
             
-            <h2 className="exploretitle">Explore</h2>
-            <div className="exploredesc">Find other interesting users to follow here.</div>
+            <h2 className="exploretitle">Posts we think you'll like</h2>
             
-            <div className="exploreusergrid">
+            {/* <div className="exploreusergrid">
             {users.map((index, i) => {
             return (
                 <div className="exploreusercard" key={i}>
@@ -141,6 +214,23 @@ const Explore = () => {
                 </div>
                 )
             })}
+            </div> */}
+
+            <div className="exploreusergrid">
+                {posts.filter(post => {
+                    return !tempUserData.following.includes(post.useruid)
+                })
+                .map((post, index) => {
+                    return (
+                            <Link  key={post.postid} className="exploreimage" to={`/user/${post.useruid}`} state={{ 
+                            uid: post.useruid,
+                            }} >
+                            <img className="exploreimageimage" src={post.imageUrl} alt="user post" ></img>
+                            
+                            
+                         </Link>
+                    )
+                })}
             </div>
             </div>
         </div>
