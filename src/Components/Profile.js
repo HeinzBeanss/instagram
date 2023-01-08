@@ -11,12 +11,13 @@ import {
   updateDoc,
   doc,
   getDocs,
-  where
+  where,
 } from 'firebase/firestore';
 import {
   getStorage,
   ref,
   getDownloadURL,
+  uploadBytesResumable
 } from 'firebase/storage';
 
 // Firebase configuration
@@ -37,7 +38,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const Profile = (props) => {
-  
+
+  const [file, setFile] = useState();
   const [userPosts, setUserPosts] = useState([]);
   const [shouldIFetchDataOnProfile, setShouldIFetchDataOnProfile] = useState(true);
   const [tempUserDataOnProfile, setTempUserDataOnProfile] = useState([]);
@@ -80,10 +82,13 @@ const Profile = (props) => {
       console.log("NOT AN IMAGE");
       return;
     }
+    console.log(file);
+    setFile(file);
 
     const tempFilePath = `profilePictures/${file.name}`;
     const newImageRef = ref(getStorage(), tempFilePath);
-      
+    const fileSnapshot = await uploadBytesResumable(newImageRef, file);
+    
       // 3 - Generate a public URL for the file.
     const publicImageUrl = await getDownloadURL(newImageRef);
     

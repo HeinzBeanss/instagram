@@ -1,6 +1,6 @@
 import './CSS/App.css';
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 
 import sun from "./Assets/sun.svg";
 import moon from "./Assets/moon.svg";
@@ -77,8 +77,9 @@ function App() {
  
  if (isLoggedIn) {
   return (
-    
-    <BrowserRouter >
+
+    // <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
     {createPost}
     {/* ADD basename={process.env.PUBLIC_URL} to the BrowserRouter element when deploying! */}
         <Nav setCreatePost={setCreatePost} shouldIUpdateNav={shouldIUpdateNav} setShouldIUpdateNav={setShouldIUpdateNav} toggleTheme={toggleTheme} themesvg={themesvg}/>
@@ -90,7 +91,7 @@ function App() {
             <Route path={"/explore"} element={ <Explore /> } />
             <Route path={"/user/:useruid"} element={ <User />} />
         </Routes>
-    </BrowserRouter>
+    </HashRouter>
     )
  } else if (!isLoggedIn) {
   return (

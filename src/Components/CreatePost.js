@@ -56,10 +56,12 @@ const CreatePost = (props) => {
           return;
         }
 
+        console.log(file);
         setFile(file);
         const tempFilePath = `tempUploads/${file.name}`;
         const newImageRef = ref(getStorage(), tempFilePath);
-          
+        const fileSnapshot = await uploadBytesResumable(newImageRef, file);
+        
           // 3 - Generate a public URL for the file.
         const publicImageUrl = await getDownloadURL(newImageRef);
         setDisplayNoneStyle({display: "none"});
