@@ -16,6 +16,7 @@ body.light {
   --onbutton: #000000;
   --faded-text: #575757;
   --opposite: #121212;
+  --lighter: #e3e3e3;
   --svg: invert(0%) sepia(92%) saturate(32%) hue-rotate(22deg) brightness(97%) contrast(100%);
 }
 
@@ -33,6 +34,7 @@ body.dark {
   --onbutton: #000000;
   --faded-text: #c9c9c9;
   --opposite: #fafafa;
+  --lighter: #363636;
   --svg: invert(100%) sepia(100%) saturate(0%) hue-rotate(275deg) brightness(100%) contrast(103%);
 }
 

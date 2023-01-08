@@ -1,13 +1,11 @@
 import './CSS/App.css';
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import sun from "./Assets/sun.svg";
 import moon from "./Assets/moon.svg";
 
 // import Nav from "./Components/Nav";
-import Loading from "./Components/Loading";
-import CreatePost from './Components/CreatePost';
 import Nav from "./Components/Nav";
 import Home from "./Components/Home";
 import Profile from "./Components/Profile";
@@ -18,22 +16,7 @@ import User from "./Components/User";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword ,signInWithEmailAndPassword } from "firebase/auth";
-import {
-    getFirestore,
-    collection,
-    addDoc,
-    query,
-    orderBy,
-    limit,
-    onSnapshot,
-    setDoc,
-    updateDoc,
-    doc,
-    serverTimestamp,
-    getDocs
-  } from 'firebase/firestore';
-import { async } from "@firebase/util";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -49,8 +32,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const auth = getAuth(app);
-const db = getFirestore(app);
+let auth = getAuth(app);
 
 
 
@@ -59,7 +41,6 @@ function App() {
   // DARK/LIGHT THEME 
   const [theme, setTheme] = useState("light");
   const [themesvg, setThemesvg] = useState(sun);
-
   const toggleTheme = () => {
       if (theme === 'light') {
         setTheme('dark');
@@ -69,15 +50,12 @@ function App() {
         setThemesvg(sun);
       }
     };
-
     useEffect(() => {
-      console.log("changing theme");
       document.body.className = theme;
     }, [theme])
 
   // FOR NAV
-  const [shouldIUpdateNav, setShouldIUpdateNav] = useState();
-
+  const [shouldIUpdateNav, setShouldIUpdateNav] = useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -86,17 +64,13 @@ function App() {
   
   // Check if user is logged in.
   useEffect(() => {
-    console.log("FETCHING DATA IFUSER IS SIGNED IN");
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-      console.log("user is signed out");
       setIsLoggedIn(false);
       } else {
+        auth = getAuth();
         setIsLoggedIn(true);
-        console.log("user is signed in");
-        
-        
-
+        setShouldIUpdateNav(true)
       }
     });
   }, [])

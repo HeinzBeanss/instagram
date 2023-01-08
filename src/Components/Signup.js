@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Signup.css"
-import Home from "./Home";
 
-// import { Link } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
     getFirestore,
-    collection,
-    addDoc,
-    query,
-    orderBy,
-    limit,
-    onSnapshot,
     setDoc,
-    updateDoc,
     doc,
-    serverTimestamp,
   } from 'firebase/firestore';
 
 // Firebase configuration
@@ -37,7 +27,6 @@ const firebaseConfig = {
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-
 const Signup = () => {
 
     const [signInEmail, setSignInEmail] = useState("");
@@ -52,7 +41,6 @@ const Signup = () => {
     
     // Shows Password not matching error, also removes error after updating email.
     useEffect(() => {
-        console.log("REFRESHING PASSOWRD BOXES");
         if (signUpConfirmPassword === signUpPassword) {
             setSignUpError(<div className="signuperrormessage" style={{visibility: "hidden"}}>Error: Passwords do not match!</div>)
         } else if (signUpConfirmPassword !== signUpPassword) {
@@ -78,57 +66,34 @@ const Signup = () => {
       }
 
     const signIn = () => {
-        console.log("ATTEMPTING SIGNING IN");
         signInWithEmailAndPassword(auth, signInEmail, signInPassword)
         .then((userCredential) => {
-            console.log("ATTEMPTING SIGNING IN X2");
-            // Signed in 
-            // userCredential.user.displayName = signUpUsername;
-            const user = userCredential.user;
-            // ...
-            
+            // Signed in             
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log("incorrect login details");
             console.log(errorCode);
             console.log(errorMessage);
             setSignInError(<div className="signinerrormessage">Error: {errorCode}</div>)
         });
-        // const auth = getAuth();
-
     }
 
     const signUp = async () => {
-        console.log("SIGNING UP");
-        console.log(`THIS IS THE CURRENT SIGNUPUSERNAME: ${signUpUsername}`);
         if (signUpPassword === signUpConfirmPassword) {
-            console.log(auth);
             createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
             .then((userCredential) => {
                 // Signed in 
-                const user = userCredential.user;
-                // ...
-                console.log(userCredential);
-                console.log(user);
-                // ..
-
                 updateProfile(auth.currentUser, {
                     displayName: signUpUsername, 
                     photoURL: "https://firebasestorage.googleapis.com/v0/b/instagram-ed084.appspot.com/o/default-profile-picture.png?alt=media&token=46359339-51c1-43b6-8a15-c79ca3981d21",
                   }).then(() => {
-                    console.log("profile updated!")
-                    console.log(auth.currentUser.displayName);
                     // Profile updated!
-                    // ...
                   }).catch((error) => {
                     // An error occurred
-                    // ...
                   });
 
                   try {
-                    console.log("generating user");
                     const docRef = setDoc(doc(db, "users", auth.currentUser.uid), {
                       displayName: signUpUsername,
                       photoURL: "https://firebasestorage.googleapis.com/v0/b/instagram-ed084.appspot.com/o/default-profile-picture.png?alt=media&token=46359339-51c1-43b6-8a15-c79ca3981d21",
@@ -138,7 +103,6 @@ const Signup = () => {
                       following: [],
                       likedposts: [],
                     });
-                    console.log("User Added to Firestore Database");
                     console.log("Document written with ID: ", docRef.id);
                   } catch (e) {
                     console.error("Error adding document: ", e);
@@ -148,16 +112,12 @@ const Signup = () => {
               const errorCode = error.code;
               const errorMessage = error.message;
               // ..
-              console.log(error);
-              console.log(errorCode);
               console.log(errorMessage);
               setSignUpError(<div className="signuperrormessage">Error: {errorCode}</div>)
-
             });
             //
         } else {
-            console.log("passwords dont match")
-            
+            // password don't match            
         }
     }
 

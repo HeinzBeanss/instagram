@@ -9,13 +9,7 @@ import {
     getFirestore,
     collection,
     addDoc,
-    query,
-    orderBy,
-    limit,
-    onSnapshot,
-    setDoc,
     updateDoc,
-    doc,
     serverTimestamp,
   } from 'firebase/firestore';
   import {
@@ -50,7 +44,6 @@ const CreatePost = (props) => {
 
     const handleChange = (e) => {
       setCaption(e.target.value);
-      console.log(caption);
     }
 
     var LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif?a';
@@ -59,40 +52,25 @@ const CreatePost = (props) => {
         event.preventDefault();
         var file = event.target.files[0];
         if (!file.type.match('image.*')) { 
-          var data = {
-            message: 'You can only share images',
-            timeout: 2000,
-          };
-          console.log("NOT AN IMAGE")
+          console.log("NOT AN IMAGE!");
           return;
         }
 
         setFile(file);
-        console.log(event.target.files);
-        console.log(file);
-        console.log("adding temp pic file");
         const tempFilePath = `tempUploads/${file.name}`;
         const newImageRef = ref(getStorage(), tempFilePath);
-        const fileSnapshot = await uploadBytesResumable(newImageRef, file);
           
           // 3 - Generate a public URL for the file.
         const publicImageUrl = await getDownloadURL(newImageRef);
         setDisplayNoneStyle({display: "none"});
         setUploadImageArea(<img className="tempimageupload" src={`${publicImageUrl}`} alt="uploaded by user"></img>)
-        
-        // Clear the selection in the file picker input.
-        // imageFormElement.reset(); 
-      
-        
       }
 
       function getUserName() {
-        console.log("GETTING USER NAME");
         return getAuth().currentUser.displayName;
       }
 
       function getUserUid() {
-        console.log("GETTING USER UID");
         return getAuth().currentUser.uid;
       }
 
@@ -102,7 +80,6 @@ const CreatePost = (props) => {
 
       async function saveImageMessage(file) {
         try {
-          console.log("adding doc");
           // 1 - We add a message with a loading icon that will get updated with the shared image.
           const messageRef = await addDoc(collection(getFirestore(), 'posts'), {
             name: getUserName(),
@@ -113,14 +90,11 @@ const CreatePost = (props) => {
             caption: caption,
             likes: [],
             comments: [],
-            // postid: messageRef.id
           });
           
           const newMessageRef = await updateDoc(messageRef, {
             postid: messageRef.id
-          } )
-          // console.log(messageRef);
-     
+          } )     
 
           // 2 - Upload the image to Cloud Storage.
           const filePath = `${getAuth().currentUser.uid}/${messageRef.id}/${file.name}`;
@@ -129,14 +103,14 @@ const CreatePost = (props) => {
           
           // 3 - Generate a public URL for the file.
           const publicImageUrl = await getDownloadURL(newImageRef);
-          console.log("updating doc");
+
           // 4 - Update the chat message placeholder with the image's URL.
           await updateDoc(messageRef,{
             imageUrl: publicImageUrl,
             storageUri: fileSnapshot.metadata.fullPath
           });
 
-          console.log("successfully uploaded");
+          console.log("Successfully Uploaded");
           props.setCreatePost([]);
         } catch (error) {
           console.error('There was an error uploading a file to Cloud Storage:', error);
@@ -153,7 +127,6 @@ const CreatePost = (props) => {
                 <div className="uploadimagearea" style={displayNoneStyle} onClick={ (e) => {
                     e.preventDefault();
                     const mediaCaptureElement = document.querySelector(".fileclick");
-                    console.log(mediaCaptureElement);
                     mediaCaptureElement.click();
                 }}>Click here to upload an image</div>
                 {uploadImageArea}

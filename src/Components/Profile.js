@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Profile.css"
+
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import {
   getFirestore,
   collection,
-  addDoc,
   query,
-  orderBy,
-  limit,
-  onSnapshot,
-  setDoc,
   updateDoc,
   doc,
-  serverTimestamp,
   getDocs,
   where
 } from 'firebase/firestore';
 import {
   getStorage,
   ref,
-  uploadBytesResumable,
   getDownloadURL,
 } from 'firebase/storage';
-import { useFetcher } from "react-router-dom";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -45,29 +38,21 @@ const db = getFirestore(app);
 
 const Profile = (props) => {
   
-
-  const [file, setFile] = useState();
   const [userPosts, setUserPosts] = useState([]);
   const [shouldIFetchDataOnProfile, setShouldIFetchDataOnProfile] = useState(true);
   const [tempUserDataOnProfile, setTempUserDataOnProfile] = useState([]);
 
   useEffect(() => {
-    console.log("USING EFFECT ON PROFILE");
-    console.log(shouldIFetchDataOnProfile);
     if (shouldIFetchDataOnProfile === true) {
       const fetchUsers = async () => {
-          let temparray = [];
           const querySnapshot = await getDocs(collection(db, "users"));
-          console.log("FETCHING DATA");
           querySnapshot.forEach((doc) => {
               if (doc.data().uid === auth.currentUser.uid) {
-  
                   setTempUserDataOnProfile(doc.data());
                   setProfilefollowers(doc.data().followers);
                   setProfilefollowing(doc.data().following);
               }
           })
-            
         }   
 
       const fetchJustUserPosts = async () => {
@@ -79,35 +64,25 @@ const Profile = (props) => {
         });
         setUserPosts(tempuserpostarray);
       }
-
       fetchUsers()
-      
       .catch(console.error);
       fetchJustUserPosts()
       .catch(console.error)
       setShouldIFetchDataOnProfile(false);
-      console.log(tempUserDataOnProfile);
-     
-
   }
   }, [shouldIFetchDataOnProfile, tempUserDataOnProfile])
-
-
 
   async function onMediaFileSelected(event) {
     event.preventDefault();
     var file = event.target.files[0];
     // checks if it's an image file.
     if (!file.type.match('image.*')) { 
-      console.log("NOT AN IMAGE")
+      console.log("NOT AN IMAGE");
       return;
     }
 
-    setFile(file);
-    console.log("adding new profile picture");
     const tempFilePath = `profilePictures/${file.name}`;
     const newImageRef = ref(getStorage(), tempFilePath);
-    const fileSnapshot = await uploadBytesResumable(newImageRef, file);
       
       // 3 - Generate a public URL for the file.
     const publicImageUrl = await getDownloadURL(newImageRef);
@@ -124,7 +99,7 @@ const Profile = (props) => {
     }).then(() => {
       // Profile updated!
       // ...
-      console.log("profile picture updated!")
+      console.log("Profile Picture Updated!")
       setShouldIFetchDataOnProfile(true);
       props.setShouldIUpdateNav(true);
     }).catch((error) => {
@@ -132,67 +107,18 @@ const Profile = (props) => {
       // ...
       console.log(error);
     });
-
   }
 
-  // 
   const handleChange = (e) => {
     setActualDesc(e.target.value);
   }
 
-  // const editBio = () => {
-  //   setDescElement(<input type="text" className="profiledescinput" placeholder="Enter a profile description..." onChange={handleChange}></input>)
-  // i didnt set value on the input above, that was probably it then right...
-  //   setButtonElement(<button className="savebiobutton" onClick={startthesave}>Save bio</button>)
-  // }
-
   let [actualDesc, setActualDesc] = useState("");
   let [shouldISave, setShouldISave] = useState(false);
 
-  // let [descElement, setDescElement] = useState(<div className="profiledesc">{tempUserDataOnProfile.description}</div>)
-  // let [buttonElement, setButtonElement] = useState(<button className="editbiobutton" onClick={editBio}>Edit bio</button>)
-
-
-  // useEffect(() => {
-  //   console.log(shouldISave);
-
-  //   if (shouldISave === true) {
-
-  //     const saveBio = async () => {
-  //       console.log("attempting to save");
-  //       console.log(actualDesc.length);
-  //       if (actualDesc.length < 150) {
-  //         console.log("ATTEMPTING TO UPDATE DOC");
-  //         console.log(actualDesc);
-  //         const currentUserRefForDesc = doc(db, "users", auth.currentUser.uid);
-  //         await updateDoc(currentUserRefForDesc, {
-  //           "description": actualDesc,
-  //       }).catch((error) => {
-  //         console.log(error);
-  //       });
-  //       console.log("written.")
-  //       setDescElement(<div className="profiledesc">{tempUserDataOnProfile.description}</div>);
-  //       setButtonElement(<button className="editbiobutton" onClick={editBio}>Edit bio</button>);
-        
-  //       }
-  //     }
-
-  //     setShouldISave(false);
-  //     saveBio();
-  //     setShouldIFetchDataOnProfile(true);
-  //   }
-
-  // }, [shouldISave]);
-
   const startthesave = () => {
-    console.log("startingsave")
     setShouldISave(true);
   } 
-
-  // useEffect(() => {
-  //   console.log(actualDesc);
-  //   console.log("above is the actual desc");
-  // }, [actualDesc]);
 
   const [savebuttonstyle, setSavebuttonstyle] = useState({ display: "none"});
   const [editbuttonstyle, setEditbuttonstyle] = useState({});
@@ -200,29 +126,21 @@ const Profile = (props) => {
   const [inputdescstyle, setInputdescstyle] = useState({ display: "none"});
 
   useEffect(() => {
-    console.log(shouldISave);
 
     if (shouldISave === true) {
 
       const saveBio = async () => {
-        console.log("attempting to save");
-        console.log(actualDesc.length);
         if (actualDesc.length < 150) {
-          console.log("ATTEMPTING TO UPDATE DOC");
-          console.log(actualDesc);
           const currentUserRefForDesc = doc(db, "users", auth.currentUser.uid);
           await updateDoc(currentUserRefForDesc, {
             "description": actualDesc,
         }).catch((error) => {
           console.log(error);
         });
-        console.log("written.")
         setEditbuttonstyle({ });
         setSavebuttonstyle({ display: "none"});
-
         setNormaldescstyle({ });
         setInputdescstyle({ display: "none"});
-        
         }
       }
 
@@ -236,18 +154,12 @@ const Profile = (props) => {
   const editBio = () => {
     setEditbuttonstyle({ display: "none"});
     setSavebuttonstyle({ });
-
     setNormaldescstyle({ display: "none"});
     setInputdescstyle({ });
   }
 
   const [profilefollowers, setProfilefollowers] = useState([]);
   const [profilefollowing, setProfilefollowing] = useState([]);
-
-  // useEffect(() => {
-  //   console.log("FOLLOWING INFO HAS BEEN CHANGED");
-  //   setShouldIFetchDataOnProfile(true);
-  // }, [profilefollowers, profilefollowing])
 
     return (
         <div className="profilecontainer">
@@ -257,31 +169,26 @@ const Profile = (props) => {
             <img className="profileuserimage" src={tempUserDataOnProfile.photoURL} alt="user's profile" onClick={ (e) => {
                 e.preventDefault();
                 const mediaCaptureElement = document.querySelector(".profilefileclick");
-                console.log(mediaCaptureElement);
                 mediaCaptureElement.click();
             }}></img>
             <div className="profiletopsectionright">
               <div className="profiletopsectionrighttop">
                 <h2 className="profilename">{tempUserDataOnProfile.displayName}</h2>
-                {/* {buttonElement} */}
+
                 <button style={savebuttonstyle} className="savebiobutton" onClick={startthesave}>Save bio</button>
                 <button style={editbuttonstyle} className="editbiobutton" onClick={editBio}>Edit bio</button>
                 
               </div>
               <div className="profiletopsectionrightmid">
-                {/* <div className="profilefollowinginfo">{tempUserDataOnProfile.followers.length} followers</div>
-                <div className="profilefollowinginfo">{tempUserDataOnProfile.following.length} following</div> */}
                 <div className="profilefollowinginfo">{profilefollowers.length} followers</div>
                 <div className="profilefollowinginfo">{profilefollowing.length} following</div>
               </div>
               <div className="profiletopsectionrightbot">
-                {/* {descElement} */}
                 <div style={normaldescstyle} className="profiledesc">{tempUserDataOnProfile.description}</div>
                 <textarea style={inputdescstyle} rows="4" className="profiledescinput" placeholder="Enter a profile description..." onChange={handleChange}></textarea>
               </div>
             </div>
           </div>
-          
           
           <div className="profilearea">
             {userPosts.map((post, index) => {

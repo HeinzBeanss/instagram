@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "../CSS/Nav.css"
 import CreatePost from "./CreatePost";
 
-
-
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -26,29 +24,15 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 const Nav = (props) => {
-    
-    // const [auth, setAuth] = useState(getAuth());
-
-    // useEffect(() => {
-    //     if (props.shouldIUpdateNav === true) {
-    //         console.log("getting auth for nav.")
-    //         props.setShouldIUpdateNav(false);
-    //     }
-    // }, [props.shouldIUpdateNav])
 
     const signout = () => {
-        console.log("signing out");
         auth.signOut().then(() => {
-            console.log("user logged out");
+            // ...
         })
-
     }
     
-    
-
     return (
         <div className="sidebarbody">
-            
             <div className="topsection">
                 <div className="logosection">
                     {/* <img src="."></img> */}
